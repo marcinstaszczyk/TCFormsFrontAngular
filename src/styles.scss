@@ -1,0 +1,116 @@
+/* You can add global styles to this file, and also import other style files */
+@import "node_modules/bootstrap/scss/bootstrap";
+
+tcf-form-edit .form-group {
+    @extend .row;
+
+    label {
+        @extend .col-form-label;
+        @extend .col-form-label-sm;
+        @extend .col-md-3;
+        @extend .col-lg-2;
+
+        padding-right: 0;
+
+        @include media-breakpoint-up(md) {
+            text-align: right;
+        }
+
+        .input-add-info {
+            @extend .hidden-md-up;
+        }
+    }
+
+    .controls {
+        @extend .col-md-7;
+        @extend .col-lg-7;
+        @extend .col-xl-6;
+
+        select, input, textarea {
+            @extend .form-control;
+            @extend .form-control-sm;
+        }
+
+        @include media-breakpoint-down(sm) {
+            //Tooltips are displayed next to Label on small devices. See HTML files.
+            .tooltip {
+                display: none;
+            }
+        }
+
+        @include media-breakpoint-up(md) {
+            select {
+                width: auto;
+                max-width: 100%;
+            }
+        }
+    }
+
+    div.input-add-info {
+        @extend .hidden-sm-down;
+        @extend .col-md-2;
+        @extend .col-form-label-sm;
+        padding-left: 0;
+    }
+
+    .feedback {
+        @extend .col-form-label-sm;
+        @extend .form-control-feedback;
+        @extend .col-9;
+        @extend .offset-md-3;
+        @extend .offset-lg-2;
+
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+
+    @mixin input-validation($color) {
+        label, .feedback {
+            color: $color;
+        }
+
+        input, select, textarea {
+            border-color: $color;
+            
+            &:focus {
+                @include box-shadow($input-box-shadow, 0 0 6px lighten($color, 20%));
+            }
+        }
+
+        div.input-add-info {
+            color: $color;
+        }
+    }
+
+    @mixin input-icon {
+      padding-right: ($input-padding-x * 3);
+      background-repeat: no-repeat;
+      background-position: center right ($input-height / 4);
+      background-size: ($input-height / 2) ($input-height / 2);
+    }
+
+    /*.form-group.ng-untouched, .control-warning {
+        @include input-validation($brand-warning);
+
+        input {
+            background-image: $form-icon-warning;
+        }
+    }*/
+    &.ng-touched.ng-invalid, .control-error {
+        @include input-validation($brand-danger);
+
+        input {
+            @include input-icon;
+            background-image: $form-icon-danger;
+        }
+    }
+    &.ng-valid, .control-success {
+        @include input-validation($brand-success);
+
+        input {
+            @include input-icon;
+            background-image: $form-icon-success;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+This dictionary describes names (ususaly nouns) used in application and how they translate to Polish names used by end-users
+
+form - way for teachers to improve (lessons, classes) -> 
+    (PL) Forma - coś by rozwijać nauczycieli (seminarium, szkolenie, konferencja, kurs, kurs kwalifikacyjny lub warsztaty)
+
+form contains following data: -> (PL) Forma zawiera nastepujące informacje:
+    area      : { type: "text", size: 255 }, -> (PL) Obszar tematyczny
+    name      : { type: "text", size: 255 }, -> (PL) Nazwa formy
+    scope     : { type: "text", size: 255 }, -> (PL) Zakres szkolenia
+    target    : { type: "text", size: 510 }, -> (PL) Adresaci
+    type      : { type: "text", size: 255 }, -> (PL) Forma zajęć (typ zajęć)
+    hours     : { type: "number", rational: false }, -> (PL) Liczba godzin
+    startDate : { type: "date", time: false }, -> (PL) Termin realizacji
+    owner     : { type: "text", size: 255 }, -> (PL) Kierownik szkolenia
+    teacher   : { type: "text", size: 255 }, -> (PL) Prowadzący
+    payment   : { type: "number" }, -> (PL) Odpłatność
+    addInfo   : { type: "text", size: 2048 }, -> (PL) Informacje dodatkowe
+    index     : { type: "Array", size: 2048 }, -> (PL) Index (do jakiej pozycji w indeksie kwalifikuje się forma)
+    uuid      : { type: "text", size: 50 }, -> (PL) Jednoznaczny identyfikator (systemowy)
