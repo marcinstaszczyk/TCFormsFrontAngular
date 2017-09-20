@@ -4,9 +4,11 @@
 tcf-form-edit .form-group {
     @extend .row;
 
+    margin-bottom: 0.25rem;
+
     label {
         @extend .col-form-label;
-        @extend .col-form-label-sm;
+        //@extend .col-form-label-sm;
         @extend .col-md-3;
         @extend .col-lg-2;
 
@@ -26,9 +28,16 @@ tcf-form-edit .form-group {
         @extend .col-lg-7;
         @extend .col-xl-6;
 
+        padding-right: 5px;
+
         select, input, textarea {
             @extend .form-control;
-            @extend .form-control-sm;
+            //@extend .form-control-sm;
+
+            &.notFullWidth {
+                width: auto;
+                max-width: 100%;
+            }
         }
 
         @include media-breakpoint-down(sm) {
@@ -49,12 +58,22 @@ tcf-form-edit .form-group {
     div.input-add-info {
         @extend .hidden-sm-down;
         @extend .col-md-2;
-        @extend .col-form-label-sm;
+        @extend .col-form-label;
+
+        @include media-breakpoint-down(md) {
+            //Lines below are coppied from .col-form-label-sm. @extend is not allowed here (TODO why?)
+            padding-top: calc(#{$input-padding-y-sm} - #{$input-btn-border-width} * 2);
+            padding-bottom: calc(#{$input-padding-y-sm} - #{$input-btn-border-width} * 2);
+            font-size: $font-size-sm;
+            //@extend .col-form-label-sm;
+        }
+
+        
         padding-left: 0;
     }
 
     .feedback {
-        @extend .col-form-label-sm;
+        //@extend .col-form-label-sm;
         @extend .form-control-feedback;
         @extend .col-9;
         @extend .offset-md-3;
@@ -113,4 +132,46 @@ tcf-form-edit .form-group {
             background-image: $form-icon-success;
         }
     }
+
+
+    &.group-for-index {
+        .index-error {
+            @extend .col-12;
+            color: $brand-danger;
+        }
+        & > .index-error {
+            @extend .hidden-md-up;
+        }
+
+        .controls {
+            div.for-button {
+                @extend .col-12;
+                @extend .hidden-sm-down;
+            }
+
+            div.input-add-info {
+                @extend .col-5;
+            }
+
+            label {
+                @extend .col-12;
+                text-align: left;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            input {
+                display: inline-block;
+                width: auto;
+            }
+        }
+    }
 }
+
+tcf-form-edit {
+    button {
+        @extend .btn;
+        @extend .btn-secondary;
+    }
+}
+

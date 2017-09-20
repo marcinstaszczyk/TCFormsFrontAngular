@@ -1,4 +1,104 @@
 <form #f="ngForm">
+  <tcf-input-wrapper for="area" label="Obszar tematyczny">
+    <select name="area" id="area" [ngModel]="form.area" #area="ngModel" required>
+      <optgroup *ngFor="let group of sAreas" [label]="group.name">
+        <option *ngFor="let option of group.sub" [value]="option">{{ option }}</option>
+      </optgroup>
+    </select>
+  </tcf-input-wrapper>
+
+  <tcf-input-text name="name" label="Nazwa formy" [ngModel]="form.name" required tcf-maxlength="130"></tcf-input-text>
+
+  <tcf-input-wrapper for="scope" label="Zakres szkolenia" addInfo="(max 250 znaków)">
+    <textarea rows="7" name="scope" [ngModel]="form.scope" #scope="ngModel" required tcf-maxlength="250"></textarea>
+    <div class="feedback" *ngIf="scope.touched && scope.errors?.maxlength">Pole może mieć maksymalnie 250 znaków.</div>
+  </tcf-input-wrapper>
+
+  <tcf-input-text name="target" label="Adresaci" [ngModel]="form.target" required tcf-maxlength="70"></tcf-input-text>
+
+  <tcf-input-wrapper for="type" label="Forma zajęć">
+    <select name="type" id="type" [ngModel]="form.type" #type="ngModel" required>
+      <option *ngFor="let option of sTypes" [value]="option">{{ option }}</option>
+    </select>
+  </tcf-input-wrapper>
+
+  <tcf-input-wrapper for="hours" label="Liczba godzin">
+    <input type="number" name="hours" id="hours" class="notFullWidth" [ngModel]="form.hours" #hours="ngModel" required min="1" max="168">
+    <div class="feedback" *ngIf="hours.touched && hours.errors?.max">Maksymalnie 168 godzin.</div>
+    <div class="feedback" *ngIf="hours.touched && hours.errors?.min">Min 1 godzina.</div>
+  </tcf-input-wrapper>
+
+  <tcf-input-wrapper for="startDate" label="Termin realizacji">
+    <input type="date" name="startDate" id="startDate" class="notFullWidth" [ngModel]="form.startDate" #startDate="ngModel" required [min]="minStartDate" [max]="maxStartDate">
+    <div class="feedback" *ngIf="startDate.touched && startDate.errors?.minDate">Nie można podać przeszłej daty.</div>
+    <div class="feedback" *ngIf="startDate.touched && startDate.errors?.maxDate">Należy podać termin na najbliższy rok.</div>
+  </tcf-input-wrapper>
+
+  <tcf-input-wrapper for="owner" label="Kierownik szkolenia">
+    <select name="owner" id="owner" [ngModel]="form.owner" #owner="ngModel" required>
+      <option *ngFor="let option of sOwners" [value]="option">{{ option }}</option>
+    </select>
+  </tcf-input-wrapper>
+
+  <tcf-input-text name="teacher" label="Prowadzący" [ngModel]="form.teacher" required tcf-maxlength="70"></tcf-input-text>
+
+  <tcf-input-wrapper for="payment" label="Liczba godzin">
+    <input type="number" name="payment" id="payment" class="notFullWidth" [ngModel]="form.payment" #payment="ngModel" required min="0" max="10000">
+    <div class="feedback" *ngIf="payment.touched && payment.errors?.max">Maksymalnie 10000.</div>
+    <div class="feedback" *ngIf="payment.touched && payment.errors?.min">Podana wartość nie jest liczbą natualną.</div>
+  </tcf-input-wrapper>
+
+  <tcf-input-wrapper for="addInfo" label="Informacje dodatkowe" addInfo="(max 250 znaków)">
+    <textarea rows="5" name="addInfo" [ngModel]="form.addInfo" #addInfo="ngModel" required tcf-maxlength="250"></textarea>
+    <div class="feedback" *ngIf="addInfo.touched && addInfo.errors?.maxlength">Pole może mieć maksymalnie 250 znaków.</div>
+  </tcf-input-wrapper>
+
+  <div class="form-group group-for-index"><!-- [ngClass]="{ 'ng-touched': true, 'ng-invalid': f.control?.get('index').errors?.max }" -->
+    <div *ngIf="f.control?.get('index').errors?.max" class="index-error">Możesz zaznaczyć maksymalnie 4 pola indeksu</div>
+    <label >Indeks<span class="input-add-info"> (max 4 pozycje) <button type="button" (click)="onToggleIndex()">{{showIndex ? 'Ukryj' : 'Pokaż'}}</button></span>:</label>
+    <div class="controls">
+      <div class="for-button">
+        <button type="button" (click)="onToggleIndex()">{{showIndex ? 'Ukryj' : 'Pokaż'}}</button>
+        <span *ngIf="f.control?.get('index').errors?.max" class="index-error">Możesz zaznaczyć maksymalnie 4 pola indeksu</span>
+      </div>
+      <div class="form-check row" *ngIf="showIndex">
+        <label *ngFor="let option of indexOptions; let i = index">
+          <input type="checkbox" name="index" id="index{{i}}" [checked]="option.checked" (click)="onIndexCheckboxClick(option)">
+          {{option.option}}
+        </label>
+      </div>
+    </div>
+    <div class="input-add-info">(max 4 pozycje)</div>
+  </div>
+  
+  
+  {{form | json}}
+
+  <button type="button" (click)="test()">Test</button>
+  <button type="button" (click)="reset()">Reset</button>
+</form>
+
+<!-- ngbTooltip="Max 150 znaków" triggers="focus:blur" -->
+
+<!-- Equivalent of tcf-input-text: 
+  <div class="form-group" [ngClass]="{ 'ng-touched': nameModel.touched, 'ng-untouched': nameModel.untouched, 'ng-valid': nameModel.valid, 'ng-invalid': !nameModel.valid }">
+    <label for="name">Nazwa formy<span class="input-add-info"> (max 150 znaków)</span>:</label>
+    <div class="controls">
+      <input type="text" name="name" id="name" 
+          [ngModel]="form.name" #nameModel="ngModel" required maxlength="150"/>
+    </div>
+    <div class="input-add-info">(max 150 znaków)</div>
+    <div class="feedback" *ngIf="nameModel.touched && nameModel.control.errors && nameModel.control.errors.required">Wypełnienie pola jest wymagane.</div>
+    <div class="feedback" *ngIf="nameModel.touched && nameModel.control.errors && nameModel.control.errors.maxlength">Pole może mieć maksymalnie 150 znaków.</div>
+  </div>
+
+
+    Equivalent of:
+
+
+
+    is: 
+
   <div class="form-group" [ngClass]="{ 'ng-touched': area.touched, 'ng-untouched': area.untouched, 'ng-valid': area.valid, 'ng-invalid': !area.valid }">
     <label for="area">Obszar tematyczny:</label>
     <div class="controls">
@@ -9,45 +109,4 @@
       </select>
     </div>
   </div>
-
-  <tcf-input-wrapper for="scope" label="Zakres szkolenia" addInfo="(max 250 znaków)">
-    <textarea rows="5" name="scope" [ngModel]="form.scope" #scope="ngModel" required maxlength="2"></textarea>
-    <div class="feedback" *ngIf="scope.touched && scope.control.errors && scope.control.errors.maxlength">Pole może mieć maksymalnie 250 znaków.</div>
-  </tcf-input-wrapper>
-  <!--TODO max-length custom-->
-
-  <tcf-input-text name="name" label="Nazwa formy" [ngModel]="form.name" required maxlength="150"></tcf-input-text>
-
-  <tcf-input-text name="target" label="Prowadzący" [ngModel]="form.target" required maxlength="7"></tcf-input-text>
-
-  <div class="form-group">
-    <label for="">Informacje dodatkowe:</label>
-    <div class="controls">
-      <textarea rows="5" ></textarea>
-    </div>
-  </div>
-
-  
-
-  <button type="button" (click)="test()">Test</button>
-  <button type="button" (click)="reset()">Reset</button>
-</form>
-
-<!--<input type="text" class="form-control" />-->
-class.has-danger]="!area.valid"
-ngClass]=" 'control-error': !nameModel.valid, 'control-warning': nameModel.untouched, 'control-success': nameModel.valid "
-<!-- ngbTooltip="Max 150 znaków" triggers="focus:blur" -->
-
-<!-- Equivalent of tcf-input-text: 
-  <div class="form-group" [ngClass]="{ 'ng-touched': nameModel.touched, 'ng-untouched': nameModel.untouched, 'ng-valid': nameModel.valid, 'ng-invalid': !nameModel.valid }">
-    <label for="name">Nazwa formy<span class="input-add-info"> (max 150 znaków)</span>:</label>
-    <div class="controls">
-      <input type="text" name="name" id="name" 
-          [ngModel]="form.name" #nameModel="ngModel" required maxlength="150"/>
-    </div>
-    <div class="input-add-info"> (max 150 znaków)</div>
-    <div class="feedback" *ngIf="nameModel.touched && nameModel.control.errors && nameModel.control.errors.required">Wypełnienie pola jest wymagane.</div>
-    <div class="feedback" *ngIf="nameModel.touched && nameModel.control.errors && nameModel.control.errors.maxlength">Pole może mieć maksymalnie 150 znaków.</div>
-  </div>
-
 -->

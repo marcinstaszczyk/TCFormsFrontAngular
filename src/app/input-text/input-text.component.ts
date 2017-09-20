@@ -13,14 +13,14 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'tcf-input-text',
   template: `
-    <label [for]="inputName">{{label}}<span *ngIf="maxlength > 0" class="input-add-info"> (max {{maxlength}} znaków)</span>:</label>
+    <label [for]="inputName">{{label}}<span *ngIf="getMaxLength() > 0" class="input-add-info"> (max {{getMaxLength()}} znaków)</span>:</label>
     <div class="controls">
-      <input type="text" [name]="inputName" [id]="inputName" 
+      <input type="text" [name]="inputName" [id]="inputName"
           [(ngModel)]="value" (blur)="onBlur()"/>
     </div>
-    <div *ngIf="maxlength > 0" class="input-add-info">(max {{maxlength}} znaków)</div>
-    <div class="feedback" *ngIf="externalControl.touched && externalControl.control.errors && externalControl.control.errors.required">Wypełnienie pola jest wymagane.</div>
-    <div class="feedback" *ngIf="externalControl.touched && externalControl.control.errors && externalControl.control.errors.maxlength">Pole może mieć maksymalnie {{maxlength}} znaków.</div>
+    <div *ngIf="getMaxLength() > 0" class="input-add-info">(max {{getMaxLength()}} znaków)</div>
+    <div class="feedback" *ngIf="externalControl?.touched && externalControl?.errors?.required">Wypełnienie pola jest wymagane.</div>
+    <div class="feedback" *ngIf="externalControl?.touched && externalControl?.errors?.maxlength">Pole może mieć maksymalnie {{getMaxLength()}} znaków.</div>
   `,
   styles: [],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
@@ -33,6 +33,7 @@ export class InputTextComponent implements ControlValueAccessor, OnInit, OnDestr
   @Input() label;
   @Input('name') inputName;
   @Input() maxlength;
+  @Input('tcf-maxlength') tcfMaxlength;
 
   externalControl: NgControl;
   validationStatusSubscription: Subscription;
@@ -51,6 +52,10 @@ export class InputTextComponent implements ControlValueAccessor, OnInit, OnDestr
   }
   ngOnDestroy() {
     this.validationStatusSubscription.unsubscribe();
+  }
+
+  getMaxLength() {
+    return this.tcfMaxlength ? this.tcfMaxlength : this.maxlength;
   }
 
   //The internal data model
