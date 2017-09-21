@@ -22,6 +22,8 @@ import { Component, ContentChild, Input, OnInit, OnDestroy } from '@angular/core
     '[class.ng-touched]': 'externalControl?.touched',
     '[class.ng-valid]': 'externalControl?.valid',
     '[class.ng-invalid]': 'externalControl?.invalid',
+    '[class.ng-pristine]': 'externalControl?.pristine',
+    '[class.ng-dirty]': 'externalControl?.dirty',
   }
 })
 export class InputWrapperComponent implements OnInit, OnDestroy {
@@ -37,7 +39,7 @@ export class InputWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.validationStatusSubscription = this.externalControl.statusChanges.subscribe((validationStatus) => {
-      if (validationStatus === 'VALID') {
+      if (validationStatus === 'VALID' && this.externalControl.dirty) {
         this.externalControl.control.markAsTouched();
       }
     });

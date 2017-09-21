@@ -1,17 +1,20 @@
 import { DictionariesService } from '../services/dictionaries.service';
 import { FormControl, NgForm, Validators } from '@angular/forms';
-import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { AfterViewChecked, Component, Input, Output, EventEmitter, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Form } from '../model/form';
+import { dateToDateString } from '../util/js-util';
+import { markAsTouchedDeep } from '../util/angular-util';
 
 @Component({
   selector: 'tcf-form-edit',
   templateUrl: './form-edit.component.html',
   styles: []
 })
-export class FormEditComponent implements OnInit, AfterViewChecked {
+export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
 
-  form = new Form();
+  @Input() form = new Form();
+  @Output('save') save = new EventEmitter();
 
   @ViewChild('f') htmlForm: NgForm;
 
@@ -26,14 +29,15 @@ export class FormEditComponent implements OnInit, AfterViewChecked {
   indexOptions = new Array<{option: string, checked: boolean}>();
 
   showIndex = false;
+  saveClicked = false;
 
   constructor(private dictService: DictionariesService) { 
-    this.minStartDate = FormEditComponent.dateToDateString(new Date());
+    this.minStartDate = dateToDateString(new Date());
 
     let date = new Date();
     date.setFullYear(date.getFullYear() + 1)
 
-    this.maxStartDate = FormEditComponent.dateToDateString(date);
+    this.maxStartDate = dateToDateString(date);
   }
 
   ngOnInit() {
@@ -53,6 +57,13 @@ export class FormEditComponent implements OnInit, AfterViewChecked {
     );
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if ('form' in changes) {
+      this.htmlForm.control.markAsPristine();
+      this._initForm();
+    }
+  }
+
   private _initForm() {
     if (this.form && this.sIndex) {
       this.indexOptions = 
@@ -63,6 +74,14 @@ export class FormEditComponent implements OnInit, AfterViewChecked {
           }
         });
     }
+    if (this.form.startDate && this.form.startDate.indexOf('Z') >= 0 ) {
+      this.form.startDate = dateToDateString(new Date(this.form.startDate));
+    }
+    this.saveClicked = false;
+  }
+
+  get formStartDate() {
+    return 0;
   }
 
   onIndexCheckboxClick(option: {option: string, checked: boolean}) {
@@ -80,8 +99,21 @@ export class FormEditComponent implements OnInit, AfterViewChecked {
     this.showIndex = !this.showIndex;
   }
 
+  onSave() {
+    if (this.htmlForm.invalid) {
+      markAsTouchedDeep(this.htmlForm.control);
+      this.saveClicked = true;
+    } else {
+      this.save.emit();
+    }
+  }
+
   test() {
-    //this.form = new Form();
+    console.log(this.htmlForm);
+
+    //let form = new Form();
+    //form.name = "aaaaaa";
+    //this.form = form;
     //this.htmlForm.form.get('area').setValue('0');
 
     console.log('zxczxc', this.indexOptions.filter(opt => opt.checked).reduce<number>(((count) => count+1), 0));
@@ -90,12 +122,6 @@ export class FormEditComponent implements OnInit, AfterViewChecked {
   reset() {
     this.htmlForm.reset();
   }
-
-  static dateToDateString(today: Date) {
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!    
-    var yyyy = today.getFullYear();
-
-    return yyyy + '-' + (mm<10 ? '0' : '') + mm + '-' + (dd<10 ? '0' : '') + dd;
-  }
 }
+
+

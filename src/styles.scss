@@ -1,6 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import "node_modules/bootstrap/scss/bootstrap";
 
+.load-UUID-form {
+    //@extend .form-inline;
+    //margin-bottom: 80px;
+    height: 130px;
+
+    input {
+        display: inline-block;
+        width: 350px;
+
+        &.ng-touched.ng-invalid {
+            border-color: $brand-danger;
+            
+            &:focus {
+                @include box-shadow($input-box-shadow, 0 0 6px lighten($brand-danger, 20%));
+            }
+        }
+    }
+
+    button {
+        @extend .btn;
+        @extend .btn-primary;
+    }
+}
+
 tcf-form-edit .form-group {
     @extend .row;
 
@@ -124,7 +148,7 @@ tcf-form-edit .form-group {
             background-image: $form-icon-danger;
         }
     }
-    &.ng-valid, .control-success {
+    &.ng-dirty.ng-valid, .control-success {
         @include input-validation($brand-success);
 
         input {
@@ -172,6 +196,22 @@ tcf-form-edit {
     button {
         @extend .btn;
         @extend .btn-secondary;
+
+        &.toggle {
+            @extend .btn-sm;
+        }
+
+        &.save {
+            @extend .btn-primary;
+            //@extend .btn-lg;
+        }
+
+        &.new {
+            //@extend .btn-lg;
+        }
     }
 }
 
+.text-error {
+    color: $brand-danger;
+}

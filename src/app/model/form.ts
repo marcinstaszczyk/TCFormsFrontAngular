@@ -5,7 +5,7 @@ export class Form {
   target: string;
   type: string;
   hours: number;
-  startDate: Date; // { type: "date", time: false },
+  startDate: string; // { type: "date", time: false },
   owner: string;
   teacher: string;
   payment: number;
@@ -13,5 +13,6 @@ export class Form {
   index: Array<string>; // indexMerged:{ type: "text", size: 2048 },
   uuid: string;
 
+  id: string;
   // indexMap = {};
 }

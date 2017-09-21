@@ -1,0 +1,8 @@
+<form class="load-UUID-form" #f="ngForm" >
+  <label for="UUIDtoLoad">Aby poprawić już wprowadzoną formę podaj kod: </label>
+  <input type="text" class="form-control" name="UUIDtoLoad" id="UUIDtoLoad" ngModel #uuid="ngModel" required pattern="[0-9a-f-]{36}">
+  <span> w wciśnij </span>
+  <button class="load" type="button" [class.disabled]="f.invalid" (click)="onLoadFormForUUID(f, uuid.value)">Przycisk</button>
+</form>
+
+<tcf-form-edit [form]="form" (save)="onSave()"></tcf-form-edit>

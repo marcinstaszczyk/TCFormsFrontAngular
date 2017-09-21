@@ -1,3 +1,4 @@
+import { FormsService } from './services/forms.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DictionariesService } from './services/dictionaries.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,6 +15,7 @@ import { InputWrapperComponent } from './input-wrapper/input-wrapper.component';
 import { MaxlengthDirective } from './validators/maxlength.directive';
 import { MaxNumberValidator, MinNumberValidator } from './validators/validate-number.directive';
 import { MinDateValidator, MaxDateValidator } from './validators/validate-date.directive';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { MinDateValidator, MaxDateValidator } from './validators/validate-date.d
     MaxNumberValidator,
     MinNumberValidator,
     MaxDateValidator,
-    MinDateValidator
+    MinDateValidator,
+    MainDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { MinDateValidator, MaxDateValidator } from './validators/validate-date.d
     HttpClientModule
   ],
   providers: [
-    DictionariesService
+    DictionariesService,
+    FormsService
   ],
   bootstrap: [AppComponent]
 })

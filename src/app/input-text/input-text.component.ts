@@ -44,7 +44,7 @@ export class InputTextComponent implements ControlValueAccessor, OnInit, OnDestr
     this.externalControl = this.injector.get(NgControl);
     if (this.externalControl != null) {
       this.validationStatusSubscription = this.externalControl.statusChanges.subscribe((validationStatus) => {
-        if (validationStatus === 'VALID') {
+        if (validationStatus === 'VALID' && !this.externalControl.pristine) {
           this.onTouchedCallback();
         }
       });
