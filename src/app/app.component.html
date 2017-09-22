@@ -1,7 +1,16 @@
 <div class="row">
-  <div class="col-12">Header</div>
+  <div class="col-12 mb-3" *ngIf="userService.loggedUser">
+    <button type="button" class="btn btn-secondary" [routerLink]="['/']">Nowa forma</button>
+    <button type="button" class="btn btn-secondary" [routerLink]="['/list']">Lista form</button>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-12">
     <router-outlet></router-outlet>
   </div>
-  <div class="col-12">Footer</div>
+</div>
+
+<div class="row">
+  <!-- <div class="col-12">Footer</div> -->
 </div>

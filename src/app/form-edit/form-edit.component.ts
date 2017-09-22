@@ -11,10 +11,11 @@ import { markAsTouchedDeep } from '../util/angular-util';
   templateUrl: './form-edit.component.html',
   styles: []
 })
-export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
+export class FormEditComponent implements OnInit, OnChanges {
 
   @Input() form = new Form();
-  @Output('save') save = new EventEmitter();
+  @Output() save = new EventEmitter();
+  @Output() newForm = new EventEmitter();
 
   @ViewChild('f') htmlForm: NgForm;
 
@@ -50,8 +51,6 @@ export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
         this.sOwners = (<any>data).sOwners;
         this.sIndex = (<any>data).sIndex;
 
-        console.log(this);
-
         this._initForm();
       }
     );
@@ -74,9 +73,6 @@ export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
           }
         });
     }
-    if (this.form.startDate && this.form.startDate.indexOf('Z') >= 0 ) {
-      this.form.startDate = dateToDateString(new Date(this.form.startDate));
-    }
     this.saveClicked = false;
   }
 
@@ -91,10 +87,6 @@ export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
     this.htmlForm.control.get('index').setValue(this.form.index.length);
   }
 
-  ngAfterViewChecked() {
-    console.log('Change detection trigerred');
-  }
-
   onToggleIndex() {
     this.showIndex = !this.showIndex;
   }
@@ -106,6 +98,14 @@ export class FormEditComponent implements OnInit, OnChanges, AfterViewChecked {
     } else {
       this.save.emit();
     }
+  }
+
+  onNewForm() {
+    this.newForm.emit();
+    this.htmlForm.control.markAsUntouched();
+    // this.form = new Form();
+    // this._initForm();
+    // this.htmlForm.control.markAsPristine();
   }
 
   test() {

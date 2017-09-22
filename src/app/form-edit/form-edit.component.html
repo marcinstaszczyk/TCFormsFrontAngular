@@ -40,9 +40,9 @@
     </select>
   </tcf-input-wrapper>
 
-  <tcf-input-text name="teacher" label="Prowadzący" [(ngModel)]="form.teacher" required tcf-maxlength="70"></tcf-input-text>
+  <tcf-input-text name="teacher" label="Prowadzący" [(ngModel)]="form.teacher" tcf-maxlength="70"></tcf-input-text>
 
-  <tcf-input-wrapper for="payment" label="Liczba godzin">
+  <tcf-input-wrapper for="payment" label="Odpłatność">
     <input type="number" name="payment" id="payment" class="notFullWidth" [(ngModel)]="form.payment" #payment="ngModel" required min="0" max="10000">
     <div class="feedback" *ngIf="payment.touched && payment.errors?.max">Maksymalnie 10000.</div>
     <div class="feedback" *ngIf="payment.touched && payment.errors?.min">Podana wartość nie jest liczbą natualną.</div>
@@ -79,8 +79,8 @@
   <span *ngIf="saveClicked && f.invalid" class="text-error" >Proszę wypełnić wszystkie pola i poprawić błędy.</span>
 
 
-  <button type="button" (click)="test()">Test</button>
-  <button type="button" (click)="reset()">Reset</button>
+  <!-- <button type="button" (click)="test()">Test</button> -->
+  <!-- <button type="button" (click)="reset()">Reset</button> -->
 </form>
 
 <!-- ngbTooltip="Max 150 znaków" triggers="focus:blur" -->
@@ -98,9 +98,16 @@
   </div>
 
 
+
     Equivalent of:
 
-
+  <tcf-input-wrapper for="area" label="Obszar tematyczny">
+    <select name="area" id="area" [(ngModel)]="form.area" #area="ngModel" required>
+      <optgroup *ngFor="let group of sAreas" [label]="group.name">
+        <option *ngFor="let option of group.sub" [value]="option">{{ option }}</option>
+      </optgroup>
+    </select>
+  </tcf-input-wrapper>
 
     is: 
 

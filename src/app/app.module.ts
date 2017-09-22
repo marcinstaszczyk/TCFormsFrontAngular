@@ -1,3 +1,6 @@
+import { IsAdminGuard } from './guards/is-admin.guard';
+import { UserService } from './services/user.service';
+import { LoginService } from './services/login.service';
 import { FormsService } from './services/forms.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DictionariesService } from './services/dictionaries.service';
@@ -16,6 +19,10 @@ import { MaxlengthDirective } from './validators/maxlength.directive';
 import { MaxNumberValidator, MinNumberValidator } from './validators/validate-number.directive';
 import { MinDateValidator, MaxDateValidator } from './validators/validate-date.directive';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { FormViewComponent } from './form-view/form-view.component';
+import { NewLineToBrPipe } from './pipes/new-line-to-br.pipe';
+import { LoginComponent } from './login/login.component';
+import { FormsListComponent } from './forms-list/forms-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +35,11 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
     MinNumberValidator,
     MaxDateValidator,
     MinDateValidator,
-    MainDashboardComponent
+    MainDashboardComponent,
+    FormViewComponent,
+    NewLineToBrPipe,
+    LoginComponent,
+    FormsListComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +51,10 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
   ],
   providers: [
     DictionariesService,
-    FormsService
+    FormsService,
+    LoginService,
+    UserService,
+    IsAdminGuard
   ],
   bootstrap: [AppComponent]
 })

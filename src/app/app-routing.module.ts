@@ -1,13 +1,19 @@
-import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
-import { FormEditComponent } from './form-edit/form-edit.component';
-import { FormNewComponent } from './form-new/form-new.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { FormsListComponent } from './forms-list/forms-list.component';
+import { LoginComponent } from './login/login.component';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { FormEditComponent } from './form-edit/form-edit.component';
+
+import { IsAdminGuard } from './guards/is-admin.guard';
+
 const routes: Routes = [
-  { path: 'new', component: FormEditComponent },
   { path: '', component: MainDashboardComponent },
-  { path: 'asdasd', redirectTo: '/new', pathMatch: 'full' }
+  { path: 'login', component: LoginComponent,  },
+  { path: 'list', component: FormsListComponent, canActivate: [IsAdminGuard] },
+  { path: 'edit/:id', component: MainDashboardComponent, canActivate: [IsAdminGuard] },
+  //{ path: 'asdasd', redirectTo: '/new', pathMatch: 'full' }
 ];
 
 @NgModule({

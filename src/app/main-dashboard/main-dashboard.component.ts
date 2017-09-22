@@ -1,10 +1,13 @@
-import { FormsService } from '../services/forms.service';
-import { Form } from './../model/form';
+import { Subscription } from 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { AbstractControl } from '@angular/forms';
 import { NgForm } from '@angular/forms/src/directives';
-import { Component, OnInit } from '@angular/core';
 
+import { FormsService } from '../services/forms.service';
+import { Form } from './../model/form';
 import { markAsTouchedDeep } from '../util/angular-util';
+
 
 @Component({
   selector: 'tcf-main-dashboard',
@@ -15,9 +18,27 @@ export class MainDashboardComponent implements OnInit {
 
   form = new Form();
 
-  constructor(private formsService: FormsService) { }
+  showSaveConfirmation = false;
+  showUuidInfo = false;
+
+  private routeParamsSubscription: Subscription;
+
+  constructor(private formsService: FormsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.routeParamsSubscription = this.route.params.subscribe(
+      (params: Params) => {
+        if (params['id'] === undefined) {
+          this.form = new Form();
+        } else {
+          this.formsService.getForm(params['id']).subscribe(
+            (form) => {
+              this.form = form;
+            }
+          );
+        }
+      }
+    );
   }
 
   onLoadFormForUUID(form: NgForm, uuid: string) {
@@ -25,7 +46,7 @@ export class MainDashboardComponent implements OnInit {
       markAsTouchedDeep(form.control);
       return;
     } else {
-      this.formsService.getForm(uuid).subscribe(
+      this.formsService.getFormByUUID(uuid).subscribe(
         (form) => {
           this.form = form;
         }
@@ -39,8 +60,11 @@ export class MainDashboardComponent implements OnInit {
 
   onSave() {
     this.formsService.saveForm(this.form).subscribe(
-      (response: any) => {
-        console.log(response);
+      (form) => {
+        this.showSaveConfirmation = true;
+        this.showUuidInfo = this.form.id == null;
+
+        this.form = form;
       },
       (error: any) => {
         console.log(error);

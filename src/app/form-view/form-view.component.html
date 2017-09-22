@@ -1,0 +1,42 @@
+<div *ngIf="form" class="form-preview" (click)="onViewClicked()">
+  <ng-container *ngIf="showDetails">
+    <ng-container *ngIf="form.uuid">Kod: {{form.uuid}}<br/></ng-container>
+    Obszar: {{form.area}}
+  </ng-container>
+  <table><tbody>
+    <tr class="text-center">
+      <td>FD-{{form.id}}</td>
+      <td colspan="3" class="bold italic">{{form.name}}</td>
+    </tr>
+    <tr class="text-center italic">
+      <td class="bold">{{form.type}}</td>
+      <td>Liczba godzin dyd.: {{form.hours}}</td>
+      <td>Termin: {{form.startDate}}</td>
+      <td>{{form.payment && form.payment > 0 ? (form.payment + ',00 zł') : '' }}</td><!-- TODO: formatowanie liczby -->
+    </tr>
+    <tr>
+      <td>Zakres szkolenia</td>
+      <td colspan="3" [innerHtml]="form.scope | newLineToBr"></td>
+    </tr>
+    <tr>
+      <td>Adresaci</td>
+      <td colspan="3">{{form.target}}</td>
+    </tr>
+    <tr>
+      <td>Kierownik/ Prowadzący</td>
+      <td colspan="3">{{form.owner}} {{form.teacher ? (' / ' + form.teacher) : ''}} </td>
+    </tr>
+    <tr>
+      <td>Uwagi</td>
+      <td colspan="3" [innerHtml]="form.addInfo | newLineToBr"></td>
+    </tr>
+  </tbody></table>
+  <div class="index" *ngIf="showDetails">
+      <span>Index:</span>
+      <div>
+        <ng-container *ngIf="!form.index || form.index.length === 0">pusty</ng-container>
+        <ng-container *ngFor="let value of form.index">{{value}}<br/></ng-container>
+      </div>
+  </div>
+</div>
+<br/>

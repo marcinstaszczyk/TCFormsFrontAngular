@@ -215,3 +215,94 @@ tcf-form-edit {
 .text-error {
     color: $brand-danger;
 }
+
+.form-preview {
+    font-size: $font-size-sm;
+
+    table {
+        @extend .table;
+        @extend .table-bordered;
+        @extend .table-sm;
+
+        max-width: 800px;
+        margin-bottom: 0px;
+
+        tr {
+            td {
+                width: 200px;
+            }
+
+            &:FIRST-CHILD td {
+                text-align: center;
+            }
+
+            td:FIRST-CHILD {
+                width: 10%;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .index {
+        >span {
+            float: left;
+        }
+        >div {
+            //display: inline-block;
+            margin-left: 60px;
+        }
+    }
+}
+
+tcf-login {
+    .form-group {
+        @extend .row;
+
+        label {
+            @extend .col-form-label;
+            @extend .col-sm-2;
+
+            padding-right: 0;
+            @include media-breakpoint-up(sm) {
+                text-align: right;
+            }
+        }
+
+        .controls {
+            @extend .col-sm-6;
+            @extend .col-md-5;
+            @extend .col-lg-4;
+            @extend .col-xl-3;
+
+            input {
+                @extend .form-control;
+            }
+        }
+    }
+
+    .buttons {
+        @extend .form-group;
+        @extend .row;
+
+        .controls {
+            @extend .offset-sm-2;
+
+            button {
+                @extend .btn;
+                @extend .btn-primary;
+            }
+        }
+    }
+}
+
+.text-center {
+    text-align: center;
+}
+.bold {
+    font-weight: bold;
+}
+.italic {
+    font-style: italic;
+}
+
+//class="forms table table-stripped table-hover table-bordered table-condensed"

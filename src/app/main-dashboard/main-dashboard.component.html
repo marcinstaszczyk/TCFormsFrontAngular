@@ -5,4 +5,17 @@
   <button class="load" type="button" [class.disabled]="f.invalid" (click)="onLoadFormForUUID(f, uuid.value)">Przycisk</button>
 </form>
 
-<tcf-form-edit [form]="form" (save)="onSave()"></tcf-form-edit>
+<ng-template #saveConfirmation>
+  <div *ngIf="showSaveConfirmation" class="alert alert-success" role="alert">
+    {{showUuidInfo ? ('Forma została dodana. Aby w przyszłości móc poprawić formę proszę zapisać kod: ' + form.uuid) : 'Forma została zmieniona.'}}
+  </div>
+</ng-template>
+<ng-container *ngTemplateOutlet="saveConfirmation"></ng-container>
+
+<tcf-form-edit [form]="form" (save)="onSave()" (newForm)="onNewForm()"></tcf-form-edit>
+
+<ng-container *ngTemplateOutlet="saveConfirmation"></ng-container>
+
+
+<h4>Podgląd:</h4>
+<tcf-form-view [form]="form"></tcf-form-view>

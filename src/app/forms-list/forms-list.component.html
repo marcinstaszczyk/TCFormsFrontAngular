@@ -1,0 +1,6 @@
+<button type="button" class="btn btn-secondary mb-3" (click)="onEditForm()" [disabled]="!selectedForm">Edytuj</button>
+<button type="button" class="btn btn-secondary btn-danger mb-3" (click)="onDelete()" [disabled]="!selectedForm">Usuń</button>
+<button type="button" class="btn btn-secondary btn-danger mb-3" (click)="onConfirmDelete()" *ngIf="selectedToDeleteForm">... i potwierdź :)</button>
+<button type="button" class="btn btn-secondary mb-3" (click)="onShowDetailsToggle()">Pokaż szczegóły</button>
+
+<tcf-form-view *ngFor="let form of formsList" [form]="form" [showDetails]="showDetails" (formClick)="onFormSelected($event)">
