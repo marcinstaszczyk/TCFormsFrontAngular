@@ -10,16 +10,18 @@ export class IsAdminGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     let isAdmin = this.userService.isAdmin()
     if (typeof isAdmin === 'boolean') {
-      this.router.navigate(['/login']);
+      this._navigateToLoginIfNotAdmin(isAdmin);
       return isAdmin;
     } else {
       return (<Observable<boolean>>isAdmin).do(
-        boolean => { this._navigateToLogin(); }
+        isAdmin => { this._navigateToLoginIfNotAdmin(isAdmin); }
       );
     }
   }
 
-  private _navigateToLogin() {
-    this.router.navigate(['/login']);
+  private _navigateToLoginIfNotAdmin(isAdmin: boolean) {
+    if (!isAdmin) {
+      this.router.navigate(['/login']);
+    }
   }
 }
