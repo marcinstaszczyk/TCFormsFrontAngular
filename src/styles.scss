@@ -305,4 +305,23 @@ tcf-login {
     font-style: italic;
 }
 
-//class="forms table table-stripped table-hover table-bordered table-condensed"
+@keyframes fadeout {
+    0%  { opacity: 1; }
+    50% { opacity: 0.5; }
+    100%{ opacity: 0; transform: scaleY(0); height: 0; margin: 0; padding: 0; display: none;}
+}
+//from {opacity: 1;}
+//to {opacity: 0;}
+
+.message {
+    &.error {
+        @extend .alert;
+        @extend .alert-danger;
+    }
+
+    &.fadeout {
+        animation-name: fadeout;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+}

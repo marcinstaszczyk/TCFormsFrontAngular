@@ -1,3 +1,4 @@
+import { MessagesService } from './../services/messages.service';
 import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -23,7 +24,7 @@ export class MainDashboardComponent implements OnInit {
 
   private routeParamsSubscription: Subscription;
 
-  constructor(private formsService: FormsService, private route: ActivatedRoute) { }
+  constructor(private formsService: FormsService, private messagesService: MessagesService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.routeParamsSubscription = this.route.params.subscribe(
@@ -32,9 +33,8 @@ export class MainDashboardComponent implements OnInit {
           this.form = new Form();
         } else {
           this.formsService.getForm(params['id']).subscribe(
-            (form) => {
-              this.form = form;
-            }
+            (form) => { this.form = form; },
+            (error) => { this.messagesService.showError('Błąd wczytywania formy: ' + error) }
           );
         }
       }
@@ -47,9 +47,8 @@ export class MainDashboardComponent implements OnInit {
       return;
     } else {
       this.formsService.getFormByUUID(uuid).subscribe(
-        (form) => {
-          this.form = form;
-        }
+        (form) => { this.form = form; },
+        (error) => { this.messagesService.showError('Błąd wczytywania formy: ' + error) }
       );
     }
   }
@@ -66,9 +65,7 @@ export class MainDashboardComponent implements OnInit {
 
         this.form = form;
       },
-      (error: any) => {
-        console.log(error);
-      },
+      (error) => { this.messagesService.showError('Błąd zapisywania formy: ' + error) }
     )
   }
 }

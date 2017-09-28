@@ -8,11 +8,12 @@ import { CustomFormsModule } from 'ng2-validation'
 import { environment } from './../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
-import { IsAdminGuard } from './guards/is-admin.guard';
 import { DictionariesService, NodeDictionariesService, FirebaseDictionariesService } from './services/dictionaries.service';
 import { FormsService, NodeFormsService, FirebaseFormsService } from './services/forms.service';
 import { LoginService, NodeLoginService, FirebaseLoginService } from './services/login.service';
 import { UserService } from './services/user.service';
+import { MessagesService } from './services/messages.service';
+import { IsAdminGuard } from './guards/is-admin.guard';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
@@ -56,6 +57,7 @@ import { NewLineToBrPipe } from './pipes/new-line-to-br.pipe';
     { provide: FormsService, useClass: environment.firebaseConfig ? FirebaseFormsService : NodeFormsService },
     { provide: LoginService, useClass: environment.firebaseConfig ? FirebaseLoginService : NodeLoginService },
     UserService,
+    MessagesService,
     IsAdminGuard
   ],
   bootstrap: [AppComponent]

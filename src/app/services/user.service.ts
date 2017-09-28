@@ -1,3 +1,4 @@
+import { MessagesService } from './messages.service';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,14 +16,12 @@ export class UserService {
 
   private _isAdminObservable: Observable<boolean>;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, private messagesService: MessagesService, private router: Router) {}
 
   login(login: string, password: string) {
     this.loginService.login(login, password).subscribe(
-      (user: User) => {
-        this.router.navigate(['/list']);
-      },
-      (error) => {/*TODO*/}
+      (user: User) => { this.router.navigate(['/list']); },
+      (error) => { this.messagesService.showError('Błąd logowania: ' + error); }
     );
   }
 

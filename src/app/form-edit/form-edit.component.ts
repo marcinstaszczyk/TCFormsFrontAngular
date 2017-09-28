@@ -1,10 +1,11 @@
-import { DictionariesService } from '../services/dictionaries.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
-import { AfterViewChecked, Component, Input, Output, EventEmitter, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Form } from '../model/form';
-import { dateToDateString } from '../util/js-util';
+import { DictionariesService } from '../services/dictionaries.service';
+import { MessagesService } from '../services/messages.service';
 import { markAsTouchedDeep } from '../util/angular-util';
+import { dateToDateString } from '../util/js-util';
 
 @Component({
   selector: 'tcf-form-edit',
@@ -32,7 +33,7 @@ export class FormEditComponent implements OnInit, OnChanges {
   showIndex = false;
   saveClicked = false;
 
-  constructor(private dictService: DictionariesService) { 
+  constructor(private dictService: DictionariesService, private messagesService: MessagesService) { 
     this.minStartDate = dateToDateString(new Date());
 
     let date = new Date();
@@ -55,7 +56,8 @@ export class FormEditComponent implements OnInit, OnChanges {
 
         this._initForm();
         //console.log('getDictionaries - processed', this);
-      }
+      },
+      (error) => { this.messagesService.showError('Błąd wczytywania słowników: ' + error); }
     );
   }
 

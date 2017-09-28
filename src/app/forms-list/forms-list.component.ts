@@ -1,3 +1,4 @@
+import { MessagesService } from './../services/messages.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -16,11 +17,12 @@ export class FormsListComponent implements OnInit {
   selectedForm: Form;
   selectedToDeleteForm: Form;
 
-  constructor(private formsService: FormsService, private router: Router) { }
+  constructor(private formsService: FormsService, private messagesService: MessagesService, private router: Router) { }
 
   ngOnInit() {
     this.formsService.getFormsList().subscribe(
-      (list) => { this.formsList = list; }
+      (list) => { this.formsList = list; },
+      (error) => { this.messagesService.showError('Błąd wczytywania listy form: ' + error) }
     );
   }
 
@@ -43,8 +45,10 @@ export class FormsListComponent implements OnInit {
   onConfirmDelete() {
     this.formsService.deleteForm(this.selectedToDeleteForm).subscribe(
       () => this.formsService.getFormsList().subscribe(
-        (list) => { this.formsList = list; }
-      )
+        (list) => { this.formsList = list; },
+        (error) => { this.messagesService.showError('Błąd wszytywnia uaktualnionej listy form: ' + error) }
+      ),
+      (error) => { this.messagesService.showError('Błąd usuwania formy: ' + error) }
     );
     this.selectedForm = null;
     this.selectedToDeleteForm = null;

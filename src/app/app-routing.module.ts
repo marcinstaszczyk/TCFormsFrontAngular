@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent,  },
   { path: 'list', component: FormsListComponent, canActivate: [IsAdminGuard] },
   { path: 'edit/:id', component: MainDashboardComponent, canActivate: [IsAdminGuard] },
+  { path: '**', component: MainDashboardComponent }
   //{ path: 'asdasd', redirectTo: '/new', pathMatch: 'full' }
 ];
 

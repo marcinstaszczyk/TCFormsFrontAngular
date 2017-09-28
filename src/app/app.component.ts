@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import { environment } from './../environments/environment';
 
 import { UserService } from './services/user.service';
+import { MessagesService } from './services/messages.service';
 
 @Component({
   selector: 'tcf-root',
@@ -11,7 +12,7 @@ import { UserService } from './services/user.service';
   styles: []
 })
 export class AppComponent implements OnInit, AfterViewChecked {
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, public messagesService: MessagesService) {
     if (environment.firebaseConfig) {
       firebase.initializeApp(environment.firebaseConfig);
     }
