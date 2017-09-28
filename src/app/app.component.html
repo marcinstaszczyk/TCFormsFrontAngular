@@ -1,5 +1,7 @@
+<button *ngIf="false" type="button" class="btn btn-secondary" (click)="onLogout();">Logout (TODO remove)</button>
+
 <div class="row">
-  <div class="col-12 mb-3" *ngIf="userService.loggedUser">
+  <div class="col-12 mb-3" *ngIf="userService.isAdmin() | async">
     <button type="button" class="btn btn-secondary" [routerLink]="['/']">Nowa forma</button>
     <button type="button" class="btn btn-secondary" [routerLink]="['/list']">Lista form</button>
   </div>

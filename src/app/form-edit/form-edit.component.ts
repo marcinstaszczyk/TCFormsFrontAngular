@@ -44,14 +44,17 @@ export class FormEditComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.htmlForm.control.addControl('index', new FormControl(null, Validators.max(4)));
 
+    //console.log('getDictionaries - started');
     this.dictService.getDictionaries().subscribe(
       (data) => {
+        //console.log('getDictionaries - received', data);
         this.sAreas = (<any>data).sAreas;
         this.sTypes = (<any>data).sTypes;
         this.sOwners = (<any>data).sOwners;
         this.sIndex = (<any>data).sIndex;
 
         this._initForm();
+        //console.log('getDictionaries - processed', this);
       }
     );
   }

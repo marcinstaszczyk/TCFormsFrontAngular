@@ -1,8 +1,9 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Rx';
+import { Subject, Subscription, Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 import { LoginService } from './login.service';
 import { User } from '../model/user';
@@ -10,38 +11,26 @@ import { User } from '../model/user';
 @Injectable()
 export class UserService {
 
-  loggedUser: User;
+  private _loggedUser: User;
 
-  private _loginCheckInProgressSubject = new Subject<boolean>();
+  private _isAdminObservable: Observable<boolean>;
 
-  constructor(private loginService: LoginService, private router: Router) {
-    this.loginService.isLogged().subscribe(
-      (user: User) => {
-        this.loggedUser = user;
-      }, 
-      () => {},
-      () => {
-        this._loginCheckInProgressSubject.next(this.loggedUser != null);
-        this._loginCheckInProgressSubject.complete();
-        this._loginCheckInProgressSubject = null;
-      }
-    ) 
-  }
+  constructor(private loginService: LoginService, private router: Router) {}
 
   login(login: string, password: string) {
     this.loginService.login(login, password).subscribe(
       (user: User) => {
-        this.loggedUser = user;
         this.router.navigate(['/list']);
-      }
+      },
+      (error) => {/*TODO*/}
     );
   }
 
-  isAdmin(): boolean | Observable<boolean> {
-    if (this._loginCheckInProgressSubject) {
-      return this._loginCheckInProgressSubject;
-    } else {
-      return this.loggedUser != null;
+  isAdmin(): Observable<boolean> {
+    if (!this._isAdminObservable) {
+      this._isAdminObservable = this.loginService.getUser().do(user => this._loggedUser = user).map(user => user != null);
     }
+
+    return this._isAdminObservable;
   }
 }
