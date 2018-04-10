@@ -304,6 +304,9 @@ tcf-login {
 .italic {
     font-style: italic;
 }
+.pre-line {
+    white-space: pre-line;
+}
 
 @keyframes fadeout {
     0%  { opacity: 1; }

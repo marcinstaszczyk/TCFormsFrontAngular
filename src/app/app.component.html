@@ -7,6 +7,8 @@
   </div>
 </div>
 
+<div *ngFor="let data of messagesService.messages" class="message error {{data.status}}">{{data.message}}</div>
+
 <div class="row">
   <div class="col-12">
     <router-outlet></router-outlet>

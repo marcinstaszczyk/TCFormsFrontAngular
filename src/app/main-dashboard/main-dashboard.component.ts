@@ -47,7 +47,7 @@ export class MainDashboardComponent implements OnInit {
       return;
     } else {
       this.formsService.getFormByUUID(uuid).subscribe(
-        (form) => { this.form = form; },
+        (form) => { if (form) {this.form = form} else {this.messagesService.showError('Nie znaleziono formy')} },
         (error) => { this.messagesService.showError('Błąd wczytywania formy: ' + error) }
       );
     }

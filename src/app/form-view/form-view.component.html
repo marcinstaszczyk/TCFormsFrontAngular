@@ -16,7 +16,7 @@
     </tr>
     <tr>
       <td>Zakres szkolenia</td>
-      <td colspan="3" [innerHtml]="form.scope | newLineToBr"></td>
+      <td colspan="3" class="pre-line">{{form.scope}}</td>
     </tr>
     <tr>
       <td>Adresaci</td>
@@ -28,7 +28,7 @@
     </tr>
     <tr>
       <td>Uwagi</td>
-      <td colspan="3" [innerHtml]="form.addInfo | newLineToBr"></td>
+      <td colspan="3" class="pre-line">{{form.addInfo}}</td>
     </tr>
   </tbody></table>
   <div class="index" *ngIf="showDetails">

@@ -1,4 +1,4 @@
-<form #f="ngForm" (submit)="onLogin()">
+<form #f="ngForm" (submit)="onLogin($event)">
   <div class="form-group">
     <label for="login">Login</label>
     <div class="controls"><input type="text" id="login" name="login" [(ngModel)]="login" required></div>

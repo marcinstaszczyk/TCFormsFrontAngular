@@ -13,6 +13,10 @@ Run `npm start` to start server on port `4200`. Server will proxy backend reques
 
 Project can be also build in production mode (see `npm run build-heroku`) and can be added to [Teaching Center Forms](https://github.com/marcinstaszczyk/teaching-center-forms) for example to folder /client/client2/
 
+## Firebase as backend
+
+Firabase is also available as a backend. 
+
 ## Live demo
 
 [Live demo](https://devforms.herokuapp.com/client2/) is available at Heroku.

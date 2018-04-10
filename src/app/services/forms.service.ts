@@ -93,13 +93,8 @@ export class FirebaseFormsService implements FormsService {
         snapshot => observer.next(snapshot.val()),
         error => observer.error(error)
       );
-    }).map(data => {
-      const array = new Array<Form>();
-      for (var key in data) {
-        array.push(data[key]);
-      }
-      return array;
-    }).do(value => console.log('data', value));
+    }).map(data => Object.keys(data).map(key => data[key]))
+      .do(value => console.log('data', value));
   }
 
   getFormByUUID(uuid: string) {

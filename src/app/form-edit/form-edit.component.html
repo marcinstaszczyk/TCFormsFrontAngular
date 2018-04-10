@@ -1,6 +1,7 @@
 <form #f="ngForm">
   <tcf-input-wrapper for="area" label="Obszar tematyczny">
     <select name="area" id="area" [(ngModel)]="form.area" #area="ngModel" required>
+      <option disabled value=""></option>
       <optgroup *ngFor="let group of sAreas" [label]="group.name">
         <option *ngFor="let option of group.sub" [value]="option">{{ option }}</option>
       </optgroup>
@@ -18,6 +19,7 @@
 
   <tcf-input-wrapper for="type" label="Forma zajęć">
     <select name="type" id="type" [(ngModel)]="form.type" #type="ngModel" required>
+      <option disabled value=""></option>
       <option *ngFor="let option of sTypes" [value]="option">{{ option }}</option>
     </select>
   </tcf-input-wrapper>
@@ -36,6 +38,7 @@
 
   <tcf-input-wrapper for="owner" label="Kierownik szkolenia">
     <select name="owner" id="owner" [(ngModel)]="form.owner" #owner="ngModel" required>
+      <option disabled value=""></option>
       <option *ngFor="let option of sOwners" [value]="option">{{ option }}</option>
     </select>
   </tcf-input-wrapper>
