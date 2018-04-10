@@ -1,4 +1,4 @@
-import { Component, AfterViewChecked, OnInit } from '@angular/core';
+import { Component, AfterViewChecked, OnInit, NgZone } from '@angular/core';
 import * as firebase from 'firebase';
 
 import { environment } from './../environments/environment';
@@ -12,9 +12,11 @@ import { MessagesService } from './services/messages.service';
   styles: []
 })
 export class AppComponent implements OnInit, AfterViewChecked {
-  constructor(public userService: UserService, public messagesService: MessagesService) {
+  constructor(public userService: UserService, public messagesService: MessagesService, private zone: NgZone) {
     if (environment.firebaseConfig) {
-      firebase.initializeApp(environment.firebaseConfig);
+      this.zone.runOutsideAngular(() => {
+        firebase.initializeApp(environment.firebaseConfig);
+      });
     }
   }
 

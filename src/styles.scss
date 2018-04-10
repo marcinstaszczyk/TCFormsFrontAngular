@@ -11,10 +11,10 @@
         width: 350px;
 
         &.ng-touched.ng-invalid {
-            border-color: $brand-danger;
+            border-color: $danger;
             
             &:focus {
-                @include box-shadow($input-box-shadow, 0 0 6px lighten($brand-danger, 20%));
+                @include box-shadow($input-box-shadow, 0 0 6px lighten($danger, 20%));
             }
         }
     }
@@ -43,7 +43,7 @@ tcf-form-edit .form-group {
         }
 
         .input-add-info {
-            @extend .hidden-md-up;
+            @extend .d-md-none;
         }
     }
 
@@ -80,7 +80,8 @@ tcf-form-edit .form-group {
     }
 
     div.input-add-info {
-        @extend .hidden-sm-down;
+        @extend .d-none;
+        @extend .d-md-block;
         @extend .col-md-2;
         @extend .col-form-label;
 
@@ -98,7 +99,7 @@ tcf-form-edit .form-group {
 
     .feedback {
         //@extend .col-form-label-sm;
-        @extend .form-control-feedback;
+        @extend .invalid-feedback;
         @extend .col-9;
         @extend .offset-md-3;
         @extend .offset-lg-2;
@@ -134,26 +135,26 @@ tcf-form-edit .form-group {
     }
 
     /*.form-group.ng-untouched, .control-warning {
-        @include input-validation($brand-warning);
+        @include input-validation($warning);
 
         input {
             background-image: $form-icon-warning;
         }
     }*/
     &.ng-touched.ng-invalid, .control-error {
-        @include input-validation($brand-danger);
+        @include input-validation($danger);
 
         input {
             @include input-icon;
-            background-image: $form-icon-danger;
+            //background-image: $form-icon-danger;
         }
     }
     &.ng-dirty.ng-valid, .control-success {
-        @include input-validation($brand-success);
+        @include input-validation($success);
 
         input {
             @include input-icon;
-            background-image: $form-icon-success;
+            //background-image: $form-icon-success;
         }
     }
 
@@ -161,16 +162,17 @@ tcf-form-edit .form-group {
     &.group-for-index {
         .index-error {
             @extend .col-12;
-            color: $brand-danger;
+            color: $danger;
         }
         & > .index-error {
-            @extend .hidden-md-up;
+            @extend .d-md-none;
         }
 
         .controls {
             div.for-button {
                 @extend .col-12;
-                @extend .hidden-sm-down;
+                @extend .d-none;
+                @extend .d-md-block;
             }
 
             div.input-add-info {
@@ -213,7 +215,7 @@ tcf-form-edit {
 }
 
 .text-error {
-    color: $brand-danger;
+    color: $danger;
 }
 
 .form-preview {
